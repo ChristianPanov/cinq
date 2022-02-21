@@ -1,4 +1,3 @@
-#include "cinq.h"
 #pragma once
 
 namespace cinq
