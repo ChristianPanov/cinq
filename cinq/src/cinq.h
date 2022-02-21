@@ -9,7 +9,8 @@ namespace cinq
 
 	public:
 		explicit linq(Collection collection);
-		linq& select(value_type (*transform)(value_type));
+		linq& select(value_type(*transform)(value_type));
+		linq& where(bool(*predicate)(value_type));
 
 	public:
 		Collection to_type() const;

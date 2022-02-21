@@ -17,6 +17,21 @@ namespace cinq
 	}
 
 	template<typename Collection>
+	linq<Collection>& linq<Collection>::where(bool(*predicate)(value_type))
+	{
+		Collection new_collection{};
+		std::size_t index{ 0 };
+		for (auto& element : m_collection)
+		{
+			if (predicate(element) == true)
+				new_collection[index++] = element;
+		}
+		m_collection = new_collection;
+
+		return *this;
+	}
+
+	template<typename Collection>
 	Collection linq<Collection>::to_type() const
 	{
 		return m_collection;
