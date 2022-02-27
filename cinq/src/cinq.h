@@ -1,26 +1,32 @@
 #pragma once
 
+#include <cstddef>
+#include <iterator>
+#include <vector>
+
 namespace cinq
 {
-	template<typename Collection>
+	template<typename T>
 	class linq
 	{
-		using value_type = typename Collection::value_type;
+	public:
+		template<typename Allocator, template<typename, typename> typename Collection>
+		explicit linq(const Collection<T, Allocator>& collection);
 
 	public:
-		explicit linq(Collection collection);
-		linq& select(value_type(*transform)(value_type));
-		linq& where(bool(*predicate)(value_type));
+		linq& select(T(*transform)(T));
+		linq& where(bool(*predicate)(T));
 
 	public:
-		Collection to_type() const;
+		std::vector<T> to_vector() const;
 
 	private:
-		Collection m_collection;
+		std::size_t m_elements;
+		std::vector<T> m_collection;
 	};
 
-	template<typename Collection>
-	linq<Collection> from(const Collection& collection);
+	template<typename T, typename Allocator, template<typename, typename> typename Collection>
+	linq<T> from(const Collection<T, Allocator>& collection);
 }
 
 #include "cinq_impl.h"

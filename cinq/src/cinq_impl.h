@@ -1,44 +1,54 @@
 #pragma once
 
+#include "cinq.h"
+
 namespace cinq
 {
-	template<typename Collection>
-	linq<Collection>::linq(Collection collection)
-		: m_collection{ collection }
+	template<typename T>
+	template<typename Allocator, template<typename, typename> typename Collection>
+	linq<T>::linq(const Collection<T, Allocator>& collection)
+		: m_collection{ std::begin(collection), std::end(collection) }
+		, m_elements{ std::size(collection) }
 	{}
 
-	template<typename Collection>
-	linq<Collection>& linq<Collection>::select(value_type(*transform)(value_type))
+	template<typename T>
+	linq<T>& linq<T>::select(T(*transform)(T))
 	{
 		for (auto& element : m_collection)
 			element = transform(element);
 		return *this;
 	}
 
-	template<typename Collection>
-	linq<Collection>& linq<Collection>::where(bool(*predicate)(value_type))
+	template<typename T>
+	linq<T>& linq<T>::where(bool(*predicate)(T))
 	{
-		Collection new_collection{};
-		std::size_t index{ 0 };
+		std::vector<T> new_collection{};
 		for (auto& element : m_collection)
 		{
 			if (predicate(element) == true)
-				new_collection[index++] = element;
+				new_collection.push_back(element);
+			else m_elements--;
 		}
 		m_collection = new_collection;
 
 		return *this;
 	}
 
-	template<typename Collection>
-	Collection linq<Collection>::to_type() const
+	template<typename T>
+	std::vector<T> linq<T>::to_vector() const
 	{
 		return m_collection;
 	}
 
-	template<typename Collection>
-	linq<Collection> from(const Collection& collection)
+	template<typename T, std::size_t Size>
+	linq<T> from(const std::array<T, Size>& arr)
 	{
-		return linq<Collection>{ collection };
+		return linq<T>{ arr };
+	}
+
+	template<typename T, typename Allocator, template<typename, typename> typename Collection>
+	linq<T> from(const Collection<T, Allocator>& collection)
+	{
+		return linq<T>{ collection };
 	}
 }
