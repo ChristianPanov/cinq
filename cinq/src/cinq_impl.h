@@ -6,6 +6,13 @@ namespace cinq
 {
 	template<typename T>
 	template<std::size_t Size>
+	linq<T>::linq(const T(&arr)[Size])
+		: m_collection{ std::begin(arr), std::end(arr) }
+		, m_elements{ Size }
+	{}
+
+	template<typename T>
+	template<std::size_t Size>
 	linq<T>::linq(const std::array<T, Size>& arr)
 		: m_collection{ std::begin(arr), std::end(arr) }
 		, m_elements{ Size }
@@ -45,6 +52,12 @@ namespace cinq
 	std::vector<T> linq<T>::to_vector() const
 	{
 		return m_collection;
+	}
+
+	template<typename T, std::size_t Size>
+	linq<T> from(const T(&arr)[Size])
+	{
+		return linq<T>{ arr };
 	}
 
 	template<typename T, std::size_t Size>

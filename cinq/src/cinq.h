@@ -11,6 +11,8 @@ namespace cinq
 	{
 	public:
 		template<std::size_t Size>
+		explicit linq(const T(&arr)[Size]);
+		template<std::size_t Size>
 		explicit linq(const std::array<T, Size>& arr);
 		template<typename Allocator, template<typename, typename> typename Collection>
 		explicit linq(const Collection<T, Allocator>& collection);
@@ -26,6 +28,9 @@ namespace cinq
 		std::size_t m_elements;
 		std::vector<T> m_collection;
 	};
+
+	template<typename T, std::size_t Size>
+	linq<T> from(const T(&arr)[Size]);
 
 	template<typename T, std::size_t Size>
 	linq<T> from(const std::array<T, Size>& arr);
