@@ -14,8 +14,8 @@ namespace cinq
 		explicit linq(const T(&arr)[Size]);
 		template<std::size_t Size>
 		explicit linq(const std::array<T, Size>& arr);
-		template<typename Allocator, template<typename, typename> typename Collection>
-		explicit linq(const Collection<T, Allocator>& collection);
+		template<typename Allocator, template<typename, typename> typename Container>
+		explicit linq(const Container<T, Allocator>& collection);
 
 	public:
 		linq& select(T(*transform)(T));
@@ -37,8 +37,8 @@ namespace cinq
 	template<typename T, std::size_t Size>
 	linq<T> from(const std::array<T, Size>& arr);
 
-	template<typename T, typename Allocator, template<typename, typename> typename Collection>
-	linq<T> from(const Collection<T, Allocator>& collection);
+	template<typename T, typename Allocator, template<typename, typename> typename Container>
+	linq<T> from(const Container<T, Allocator>& collection);
 }
 
 #include "cinq_impl.h"

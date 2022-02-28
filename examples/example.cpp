@@ -10,7 +10,6 @@ int main()
 	auto dst = cinq::from(src)
 		.where	([](auto x) { return x % 2 == 0; })
 		.select	([](auto x) { return x * 2; })
-		.skip(2)
 		.to_vector();
 
 

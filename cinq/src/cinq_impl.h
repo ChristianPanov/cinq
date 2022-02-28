@@ -19,8 +19,8 @@ namespace cinq
 	{}
 
 	template<typename T>
-	template<typename Allocator, template<typename, typename> typename Collection>
-	linq<T>::linq(const Collection<T, Allocator>& collection)
+	template<typename Allocator, template<typename, typename> typename Container>
+	linq<T>::linq(const Container<T, Allocator>& collection)
 		: m_storage{ collection.begin(), collection.end() }
 		, m_elements{ collection.size() }
 	{}
@@ -84,8 +84,8 @@ namespace cinq
 		return linq<T>{ arr };
 	}
 
-	template<typename T, typename Allocator, template<typename, typename> typename Collection>
-	linq<T> from(const Collection<T, Allocator>& collection)
+	template<typename T, typename Allocator, template<typename, typename> typename Container>
+	linq<T> from(const Container<T, Allocator>& collection)
 	{
 		return linq<T>{ collection };
 	}
