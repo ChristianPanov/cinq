@@ -97,6 +97,14 @@ namespace cinq
 	}
 
 	template<typename T>
+	bool linq<T>::all(bool(*predicate)(T))
+	{
+		for (const auto& element : m_storage)
+			if (!predicate(element)) return false;
+		return true;
+	}
+
+	template<typename T>
 	std::vector<T> linq<T>::to_vector() const
 	{
 		return m_storage;

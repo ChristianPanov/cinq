@@ -12,13 +12,16 @@ int main()
 		.select	([](auto x) { return x * 2; })
 		.to_vector();
 
-
 	for (int i = 0; i < dst.size(); ++i)
 	{
 		std::cout << dst[i] << " ";
 	}
 
+	bool condition = cinq::from(src).all([](auto x) { return x <= 10; });
+
 	std::cout << '\n';
+
+	std::cout << condition << "\n";
 
 	return 0;
 }

@@ -26,6 +26,9 @@ namespace cinq
 		linq& skip_while(bool(*predicate)(T));
 
 	public:
+		bool all(bool(*predicate)(T));
+
+	public:
 		std::vector<T> to_vector() const;
 
 	private:
