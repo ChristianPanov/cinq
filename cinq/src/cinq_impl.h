@@ -58,6 +58,15 @@ namespace cinq
 	}
 
 	template<typename T>
+	linq<T>& linq<T>::skip(std::size_t count)
+	{
+		std::vector<T> new_storage{ m_storage.begin() + count,
+			m_storage.end() };
+		m_storage = new_storage;
+		return *this;
+	}
+
+	template<typename T>
 	std::vector<T> linq<T>::to_vector() const
 	{
 		return m_storage;

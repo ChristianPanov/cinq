@@ -21,6 +21,7 @@ namespace cinq
 		linq& select(T(*transform)(T));
 		linq& where(bool(*predicate)(T));
 		linq& take(std::size_t count);
+		linq& skip(std::size_t count);
 
 	public:
 		std::vector<T> to_vector() const;
