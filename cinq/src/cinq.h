@@ -20,13 +20,14 @@ namespace cinq
 	public:
 		linq& select(T(*transform)(T));
 		linq& where(bool(*predicate)(T));
+		linq& take(std::size_t count);
 
 	public:
 		std::vector<T> to_vector() const;
 
 	private:
 		std::size_t m_elements;
-		std::vector<T> m_collection;
+		std::vector<T> m_storage;
 	};
 
 	template<typename T, std::size_t Size>
