@@ -8,21 +8,18 @@ namespace cinq
 	template<std::size_t Size>
 	linq<T>::linq(const T(&arr)[Size])
 		: m_storage{ std::begin(arr), std::end(arr) }
-		, m_elements{ Size }
 	{}
 
 	template<typename T>
 	template<std::size_t Size>
 	linq<T>::linq(const std::array<T, Size>& arr)
 		: m_storage{ arr.begin(), arr.end() }
-		, m_elements{ Size }
 	{}
 
 	template<typename T>
 	template<typename Allocator, template<typename, typename> typename Container>
 	linq<T>::linq(const Container<T, Allocator>& collection)
 		: m_storage{ collection.begin(), collection.end() }
-		, m_elements{ collection.size() }
 	{}
 
 	template<typename T>
@@ -39,9 +36,8 @@ namespace cinq
 		std::vector<T> new_storage;
 		for (auto& element : m_storage)
 		{
-			if (predicate(element) == true)
+			if (predicate(element))
 				new_storage.push_back(element);
-			else m_elements--;
 		}
 		m_storage = new_storage;
 
@@ -58,10 +54,44 @@ namespace cinq
 	}
 
 	template<typename T>
+	linq<T>& linq<T>::take_while(bool(*predicate)(T))
+	{
+		std::size_t count{};
+		for (auto& element : m_storage)
+		{
+			if (predicate(element)) count++;
+			else break;
+		}
+
+		std::vector<T> new_storage{ m_storage.begin(), 
+			m_storage.begin() + count };
+
+		m_storage = new_storage;
+		return *this;
+	}
+
+	template<typename T>
 	linq<T>& linq<T>::skip(std::size_t count)
 	{
 		std::vector<T> new_storage{ m_storage.begin() + count,
 			m_storage.end() };
+		m_storage = new_storage;
+		return *this;
+	}
+
+	template<typename T>
+	linq<T>& linq<T>::skip_while(bool(*predicate)(T))
+	{
+		std::size_t count{};
+		for (auto& element : m_storage)
+		{
+			if (predicate(element)) count++;
+			else break;
+		}
+
+		std::vector<T> new_storage{ m_storage.begin() + count,
+			m_storage.end() };
+
 		m_storage = new_storage;
 		return *this;
 	}
