@@ -23,7 +23,8 @@ namespace cinq
 	{}
 
 	template<typename T>
-	linq<T>& linq<T>::select(T(*transform)(T))
+	template<typename Callable>
+	linq<T>& linq<T>::select(Callable transform)
 	{
 		for (auto& element : m_storage)
 			element = transform(element);
@@ -31,7 +32,8 @@ namespace cinq
 	}
 
 	template<typename T>
-	linq<T>& linq<T>::where(bool(*predicate)(T))
+	template<typename Callable>
+	linq<T>& linq<T>::where(Callable predicate)
 	{
 		std::vector<T> new_storage;
 		for (auto& element : m_storage)
@@ -45,16 +47,8 @@ namespace cinq
 	}
 
 	template<typename T>
-	linq<T>& linq<T>::take(std::size_t count)
-	{
-		std::vector<T> new_storage{ m_storage.begin(), 
-			m_storage.begin() + count };
-		m_storage = new_storage;
-		return *this;
-	}
-
-	template<typename T>
-	linq<T>& linq<T>::take_while(bool(*predicate)(T))
+	template<typename Callable>
+	linq<T>& linq<T>::take_while(Callable predicate)
 	{
 		std::size_t count{};
 		for (auto& element : m_storage)
@@ -66,6 +60,33 @@ namespace cinq
 		std::vector<T> new_storage{ m_storage.begin(), 
 			m_storage.begin() + count };
 
+		m_storage = new_storage;
+		return *this;
+	}
+
+	template<typename T>
+	template<typename Callable>
+	linq<T>& linq<T>::skip_while(Callable predicate)
+	{
+		std::size_t count{};
+		for (auto& element : m_storage)
+		{
+			if (predicate(element)) count++;
+			else break;
+		}
+
+		std::vector<T> new_storage{ m_storage.begin() + count,
+			m_storage.end() };
+
+		m_storage = new_storage;
+		return *this;
+	}
+
+	template<typename T>
+	linq<T>& linq<T>::take(std::size_t count)
+	{
+		std::vector<T> new_storage{ m_storage.begin(),
+			m_storage.begin() + count };
 		m_storage = new_storage;
 		return *this;
 	}
@@ -80,24 +101,8 @@ namespace cinq
 	}
 
 	template<typename T>
-	linq<T>& linq<T>::skip_while(bool(*predicate)(T))
-	{
-		std::size_t count{};
-		for (auto& element : m_storage)
-		{
-			if (predicate(element)) count++;
-			else break;
-		}
-
-		std::vector<T> new_storage{ m_storage.begin() + count,
-			m_storage.end() };
-
-		m_storage = new_storage;
-		return *this;
-	}
-
-	template<typename T>
-	bool linq<T>::all(bool(*predicate)(T)) const
+	template<typename Callable>
+	bool linq<T>::all(Callable predicate) const
 	{
 		for (const auto& element : m_storage)
 			if (!predicate(element)) return false;
@@ -105,7 +110,8 @@ namespace cinq
 	}
 
 	template<typename T>
-	bool linq<T>::any(bool(*predicate)(T)) const
+	template<typename Callable>
+	bool linq<T>::any(Callable predicate) const
 	{
 		for (const auto& element : m_storage)
 			if (predicate(element)) return true;

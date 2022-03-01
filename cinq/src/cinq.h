@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <iterator>
+#include <algorithm>
 #include <vector>
 
 namespace cinq
@@ -18,16 +19,16 @@ namespace cinq
 		explicit linq(const Container<T, Allocator>& collection);
 
 	public:
-		linq& select(T(*transform)(T));
-		linq& where(bool(*predicate)(T));
+		template<typename Callable> linq& select(Callable transform);
+		template<typename Callable> linq& where(Callable predicate);
+		template<typename Callable> linq& take_while(Callable predicate);
+		template<typename Callable> linq& skip_while(Callable predicate);
 		linq& take(std::size_t count);
-		linq& take_while(bool(*predicate)(T));
 		linq& skip(std::size_t count);
-		linq& skip_while(bool(*predicate)(T));
 
 	public:
-		bool all(bool(*predicate)(T)) const;
-		bool any(bool(*predicate)(T)) const;
+		template<typename Callable> bool all(Callable predicate) const;
+		template<typename Callable> bool any(Callable predicate) const;
 		bool any() const;
 
 	public:
