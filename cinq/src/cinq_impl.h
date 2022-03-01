@@ -24,6 +24,32 @@ namespace cinq
 
 	template<typename T>
 	template<typename Callable>
+	linq<T>& linq<T>::order_by(Callable key)
+	{
+		std::sort(m_storage.begin(), m_storage.end(),
+			[key](T lhs, T rhs)
+			{
+				return key(lhs) < key(rhs);
+			}
+		);
+		return *this;
+	}
+
+	template<typename T>
+	template<typename Callable>
+	linq<T>& linq<T>::order_by_descending(Callable key)
+	{
+		std::sort(m_storage.begin(), m_storage.end(),
+			[key](T lhs, T rhs)
+			{
+				return key(lhs) > key(rhs);
+			}
+		);
+		return *this;
+	}
+
+	template<typename T>
+	template<typename Callable>
 	linq<T>& linq<T>::select(Callable transform)
 	{
 		for (auto& element : m_storage)
@@ -57,7 +83,7 @@ namespace cinq
 			else break;
 		}
 
-		std::vector<T> new_storage{ m_storage.begin(), 
+		std::vector<T> new_storage{ m_storage.begin(),
 			m_storage.begin() + count };
 
 		m_storage = new_storage;
