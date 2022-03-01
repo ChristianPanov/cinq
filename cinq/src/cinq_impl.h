@@ -97,11 +97,25 @@ namespace cinq
 	}
 
 	template<typename T>
-	bool linq<T>::all(bool(*predicate)(T))
+	bool linq<T>::all(bool(*predicate)(T)) const
 	{
 		for (const auto& element : m_storage)
 			if (!predicate(element)) return false;
 		return true;
+	}
+
+	template<typename T>
+	bool linq<T>::any(bool(*predicate)(T)) const
+	{
+		for (const auto& element : m_storage)
+			if (predicate(element)) return true;
+		return false;
+	}
+
+	template<typename T>
+	bool linq<T>::any() const
+	{
+		return !m_storage.empty();
 	}
 
 	template<typename T>

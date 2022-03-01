@@ -18,6 +18,7 @@ int main()
 	}
 
 	bool condition = cinq::from(src).all([](auto x) { return x <= 10; });
+	bool condition2 = cinq::from(src).any([](auto x) { return x > 5; });
 
 	std::cout << '\n';
 
