@@ -168,6 +168,24 @@ namespace cinq
 	}
 
 	template<typename T>
+	std::set<T> linq<T>::to_set() const
+	{
+		return std::set<T>{ m_storage.begin(), m_storage.end() };
+	}
+
+	template<typename T>
+	std::list<T> linq<T>::to_list() const
+	{
+		return std::list<T>{ m_storage.begin(), m_storage.end() };
+	}
+
+	template<typename T>
+	inline std::deque<T> linq<T>::to_deque() const
+	{
+		return std::deque<T>{ m_storage.begin(), m_storage.end() };
+	}
+
+	template<typename T>
 	std::vector<T> linq<T>::to_vector() const
 	{
 		return m_storage;

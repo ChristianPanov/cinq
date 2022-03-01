@@ -3,6 +3,9 @@
 #include <cstddef>
 #include <iterator>
 #include <algorithm>
+#include <set>
+#include <list>
+#include <deque>
 #include <vector>
 
 namespace cinq
@@ -40,6 +43,9 @@ namespace cinq
 		bool any() const;
 
 	public:
+		std::set<T> to_set() const;
+		std::list<T> to_list() const;
+		std::deque<T> to_deque() const;
 		std::vector<T> to_vector() const;
 
 	private:
