@@ -127,6 +127,23 @@ namespace cinq
 	}
 
 	template<typename T>
+	template<typename... Items, typename>
+	linq<T>& linq<T>::append(Items&&... items)
+	{
+		(m_storage.push_back(items), ...);
+		return *this;
+	}
+
+	template<typename T>
+	template<typename... Items, typename>
+	linq<T>& linq<T>::prepend(Items&&... items)
+	{
+		std::initializer_list<T> temp{ items... };
+		m_storage.insert(m_storage.begin(), temp);
+		return *this;
+	}
+
+	template<typename T>
 	template<typename Callable>
 	bool linq<T>::all(Callable predicate) const
 	{

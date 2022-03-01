@@ -29,6 +29,12 @@ namespace cinq
 		linq& skip(std::size_t count);
 
 	public:
+		template<typename... Items, typename = std::enable_if_t<(std::is_same_v<T, Items>, ...)>> 
+		linq& append(Items&&... items);
+		template<typename... Items, typename = std::enable_if_t<(std::is_same_v<T, Items>, ...)>>
+		linq& prepend(Items&&... items);
+
+	public:
 		template<typename Callable> bool all(Callable predicate) const;
 		template<typename Callable> bool any(Callable predicate) const;
 		bool any() const;
