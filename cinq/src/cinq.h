@@ -36,6 +36,7 @@ namespace cinq
 		linq& append(Items&&... items);
 		template<typename... Items, typename = std::enable_if_t<(std::is_same_v<T, Items>, ...)>>
 		linq& prepend(Items&&... items);
+		linq& reverse();
 
 	public:
 		template<typename Callable> bool all(Callable predicate) const;

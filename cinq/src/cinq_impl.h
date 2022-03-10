@@ -144,6 +144,13 @@ namespace cinq
 	}
 
 	template<typename T>
+	linq<T>& linq<T>::reverse()
+	{
+		std::reverse(m_storage.begin(), m_storage.end());
+		return *this;
+	}
+
+	template<typename T>
 	template<typename Callable>
 	bool linq<T>::all(Callable predicate) const
 	{
