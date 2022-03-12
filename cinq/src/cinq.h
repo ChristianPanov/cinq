@@ -36,6 +36,8 @@ namespace cinq
 		linq& append(Items&&... items);
 		template<typename... Items, typename = std::enable_if_t<(std::is_same_v<T, Items>, ...)>>
 		linq& prepend(Items&&... items);
+		template<typename Container>
+		linq& concat(const Container& collection);
 		linq& reverse();
 
 	public:

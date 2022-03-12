@@ -144,6 +144,15 @@ namespace cinq
 	}
 
 	template<typename T>
+	template<typename Container>
+	linq<T>& linq<T>::concat(const Container& collection)
+	{
+		m_storage.reserve(m_storage.size() + std::size(collection));
+		m_storage.insert(m_storage.end(), std::begin(collection), std::end(collection));
+		return *this;
+	}
+
+	template<typename T>
 	linq<T>& linq<T>::reverse()
 	{
 		std::reverse(m_storage.begin(), m_storage.end());
