@@ -160,6 +160,17 @@ namespace cinq
 	}
 
 	template<typename T>
+	template<typename U>
+	linq<U> linq<T>::cast()
+	{
+		std::vector<U> new_storage;
+		for (const auto& element : m_storage)
+			new_storage.push_back(static_cast<U>(element));
+
+		return linq<U>{ new_storage };
+	}
+
+	template<typename T>
 	template<typename Callable>
 	bool linq<T>::all(Callable predicate) const
 	{

@@ -39,6 +39,8 @@ namespace cinq
 		template<typename Container>
 		linq& concat(const Container& collection);
 		linq& reverse();
+		template<typename U>
+		linq<U> cast();
 
 	public:
 		template<typename Callable> bool all(Callable predicate) const;
