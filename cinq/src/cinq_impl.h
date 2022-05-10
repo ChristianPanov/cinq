@@ -128,6 +128,14 @@ namespace cinq
 	}
 
 	template<typename T>
+	linq<T>& linq<T>::distinct()
+	{
+		std::sort(m_storage.begin(), m_storage.end());
+		m_storage.erase(std::unique(m_storage.begin(), m_storage.end()), m_storage.end());
+		return *this;
+	}
+
+	template<typename T>
 	template<typename... Items, typename>
 	linq<T>& linq<T>::append(Items&&... items)
 	{

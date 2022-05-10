@@ -32,6 +32,7 @@ namespace cinq
 		template<typename Callable> linq& skip_while(Callable predicate);
 		linq& take(std::size_t count);
 		linq& skip(std::size_t count);
+		linq& distinct();
 
 	public:
 		template<typename... Items, typename = std::enable_if_t<(std::is_same_v<T, Items>, ...)>> 
