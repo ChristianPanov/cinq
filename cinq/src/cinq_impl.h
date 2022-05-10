@@ -24,6 +24,16 @@ namespace cinq
 
 	template<typename T>
 	template<typename Callable>
+	linq<decltype(std::declval<Callable>()(std::declval<T>()))> linq<T>::select(Callable transform)
+	{
+		std::vector<decltype(std::declval<Callable>()(std::declval<T>()))> new_storage;
+		for (auto& element : m_storage)
+			new_storage.push_back(transform(element));
+		return linq<decltype(std::declval<Callable>()(std::declval<T>()))>{ new_storage };
+	}
+
+	template<typename T>
+	template<typename Callable>
 	linq<T>& linq<T>::order_by(Callable key)
 	{
 		std::sort(m_storage.begin(), m_storage.end(),
@@ -45,15 +55,6 @@ namespace cinq
 				return key(lhs) > key(rhs);
 			}
 		);
-		return *this;
-	}
-
-	template<typename T>
-	template<typename Callable>
-	linq<T>& linq<T>::select(Callable transform)
-	{
-		for (auto& element : m_storage)
-			element = transform(element);
 		return *this;
 	}
 

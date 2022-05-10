@@ -22,9 +22,11 @@ namespace cinq
 		explicit linq(const Container<T, Allocator>& collection);
 
 	public:
+		template<typename Callable> 
+		linq<decltype(std::declval<Callable>()(std::declval<T>()))> select(Callable transform);
+
 		template<typename Callable> linq& order_by(Callable key);
 		template<typename Callable> linq& order_by_descending(Callable key);
-		template<typename Callable> linq& select(Callable transform);
 		template<typename Callable> linq& where(Callable predicate);
 		template<typename Callable> linq& take_while(Callable predicate);
 		template<typename Callable> linq& skip_while(Callable predicate);
